@@ -14,8 +14,6 @@ from jointFix import jointFixLocalRotateAxis
 input_file_path = r'C:\Users\jpark\Desktop\Captsone\Sabretooth\Sit\Final_V1.ma'
 output_file_path = r'C:\Users\jpark\Desktop\Final_V1_edited.ma'
 
-
-
 # Open the file
 cmds.file(input_file_path, open=True, force=True)
 

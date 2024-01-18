@@ -1,13 +1,7 @@
+
 import maya.cmds as cmds
 import maya.mel as mel
 
-# joint = "Leg_Middle_Jnt_L"
-# xValue = -180
-# yValue = 0
-# zValue = 0
-# targetSkinCluster = "skinCluster4"
-# targetMesh = "Body"
-# skeletonRoot = "Root"
 
 def jointFixLocalRotateAxis(joint, xValue, yValue, zValue, targetSkinCluster, targetMesh, skeletonRoot) -> None:
     """
@@ -42,4 +36,3 @@ def jointFixLocalRotateAxis(joint, xValue, yValue, zValue, targetSkinCluster, ta
     cmds.select(duplicateName,add=True)
     cmds.copySkinWeights(noMirror=True, surfaceAssociation="closestPoint", influenceAssociation="closestJoint")
 
-# jointFixLocalRotateAxis()
