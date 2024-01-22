@@ -9,6 +9,10 @@ def jointFixLocalRotateAxis(joint, xValue, yValue, zValue, targetSkinCluster, ta
 
     The old mesh will be duplicated and the new mesh will have the skin weights copied from the previous
     The old mesh will be hidden rather than deleted
+
+    targetSkinCluster: refers to the name of the input skin cluster binding the targeted joint; ex. 'skinCluster4'
+    targetMesh: refers to the name of the mesh that is binding the targeted joint
+    skeletonRoot: refers to the name of the root joint in the joint hierarchy
     
     """
     # set local rotation axis as true for componen selection
