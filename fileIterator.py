@@ -5,7 +5,7 @@ import maya.mel as mel
 from jointFix import jointFixLocalRotateAxis
 
 class targetFiles:
-    """
+    r"""
     Parent class holding general methods for child classes
     not intended to be instanced
     
@@ -16,7 +16,7 @@ class targetFiles:
         self.editTag = editTag
 
     def editFileNameAndPath(self, editName: str, filePath: str):
-        """
+        r"""
         Returns the specified file path with a new file name suffix.
 
         Used to preserve original file and create an edited version.
@@ -34,7 +34,7 @@ class targetFiles:
         return newFilePath
     
     def editFileNameOnly(self, editName, filePath):
-        """
+        r"""
         Returns the specified file name with an added suffix
 
         Used to add the new file name to a directory.
@@ -49,7 +49,7 @@ class targetFiles:
         return newFileName
     
     def fileIterate(self, operation, values):
-        """
+        r"""
         Iterates through multiple files with a specified operation
 
         Not intended to be used directly in an instance.
@@ -65,12 +65,10 @@ class targetFiles:
             cmds.file(rename=self.editFileNameAndPath(self.editTag, eachFile))
             cmds.file(save=True, type='mayaAscii')
 
-    def tester(self):
-        print("======TESTER2=======")
 
 
 class localRotationalAxisChangeSkinBound(targetFiles):
-    """
+    r"""
     Changes the local rotational axis relative to its current values for joints already bound to skin
 
     The old mesh will be duplicated and the new mesh will have the skin weights copied from the previous
@@ -99,7 +97,9 @@ class localRotationalAxisChangeSkinBound(targetFiles):
 
         self.inputValues = (self.joint, self.xValue, self.yValue, self.zValue, self.targetSkinCluster, self.targetMesh, self.skeletonRoot)
 
-        # print(f"========{self.editTag, self.filePathList}")
+        self.fileIterate(jointFixLocalRotateAxis, self.inputValues)
+
+
 
 
 

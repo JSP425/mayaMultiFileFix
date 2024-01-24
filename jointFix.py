@@ -4,7 +4,7 @@ import maya.mel as mel
 
 
 def jointFixLocalRotateAxis(joint, xValue, yValue, zValue, targetSkinCluster, targetMesh, skeletonRoot) -> None:
-    """
+    r"""
     Changes the local rotational axis relative to its current values for joints already bound to skin
 
     The old mesh will be duplicated and the new mesh will have the skin weights copied from the previous
