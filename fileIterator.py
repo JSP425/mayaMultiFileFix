@@ -1,6 +1,7 @@
 import os
 import maya.cmds as cmds
 import maya.mel as mel
+import shutil
 
 from jointFix import jointFixLocalRotateAxis
 
@@ -11,9 +12,10 @@ class targetFiles:
     
     """
 
-    def __init__(self, editTag: str,filePathList: list) -> None:
+    def __init__(self, editTag: str, filePathList: list, newFileList = []) -> None:
         self.filePathList = filePathList
         self.editTag = editTag
+        self.newFileList = newFileList
 
     def editFileNameAndPath(self, editName: str, filePath: str):
         r"""
@@ -56,15 +58,36 @@ class targetFiles:
         A child class will utilize this method and input the values accordingly.
         
         """
+        destList = []
         for eachFile in self.filePathList:
             cmds.file(eachFile, open=True, force=True)
+            newPath = self.editFileNameAndPath(self.editTag, eachFile)
+            destList.append(newPath)
+            cmds.file(rename=newPath)
 
             operation(*values)
 
-            # self.editFileNameAndPath(editName, filePath)
-            cmds.file(rename=self.editFileNameAndPath(self.editTag, eachFile))
             cmds.file(save=True, type='mayaAscii')
 
+        # print(destList)
+        return destList
+    
+
+    def moveFiles(self, newDirectory: str) -> None:
+        r"""
+        Moves files newly edited files to a preferred directory.
+
+        If the directory doesn't exist, this will create and move the files there
+        
+
+        """
+        print(f"self.newFileList: {self.newFileList}")
+
+        if not os.path.isdir(newDirectory):
+            os.makedirs(newDirectory) 
+            
+        for eachFile in self.newFileList:
+            shutil.move(eachFile, newDirectory)
 
 
 class localRotationalAxisChangeSkinBound(targetFiles):
@@ -84,7 +107,7 @@ class localRotationalAxisChangeSkinBound(targetFiles):
     
     """
 
-    def __init__(self, editTag: str, filePathList: list, joint: str, xValue: float, yValue: float, zValue: float, targetSkinCluster: str, targetMesh: str, skeletonRoot: str) -> None:
+    def __init__(self, editTag: str, filePathList: list, joint: str, xValue: float, yValue: float, zValue: float, targetSkinCluster: str, targetMesh: str, skeletonRoot: str, newFileList=[]) -> None:
         # super().__init__(editTag, filePathList)
         self.joint = joint
         self.xValue = xValue
@@ -93,11 +116,12 @@ class localRotationalAxisChangeSkinBound(targetFiles):
         self.targetSkinCluster = targetSkinCluster
         self.targetMesh = targetMesh
         self.skeletonRoot = skeletonRoot
-        super().__init__(editTag, filePathList) 
+        super().__init__(editTag, filePathList, newFileList) 
 
         self.inputValues = (self.joint, self.xValue, self.yValue, self.zValue, self.targetSkinCluster, self.targetMesh, self.skeletonRoot)
 
-        self.fileIterate(jointFixLocalRotateAxis, self.inputValues)
+        self.newFileList = self.fileIterate(jointFixLocalRotateAxis, self.inputValues)
+
 
 
 
